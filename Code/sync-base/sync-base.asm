@@ -1,3 +1,7 @@
+;
+; 	PIC16F84A VIDEO SYNC TEMPLATE
+;	RAY CLEMENS JAN 2021
+;
 
 processor 16F84A	    ; Define processor
 #include <xc.inc>
