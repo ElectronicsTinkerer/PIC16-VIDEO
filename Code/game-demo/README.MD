@@ -19,7 +19,7 @@ The PIC is unfortunately not fast enough to actively compute the bit patterns fo
 The player is not computed in the `CALC_NEXT_LINE` routine. Instead, it is actively drawn as the line is being output to the screen, allowing for smooth motion of the player.
 
 ### Smooth Scrolling
-In order to achieve smooth scrolling, every other frame the scanlines are shifted to the left by one machine cycle. After eight frames, `PTRN_BUF` is shifted left one bit and the cycle starts over.\
+In order to achieve smooth scrolling, every frame the scanlines are shifted to the left by one machine cycle. After eight frames, `PTRN_BUF` is shifted left one bit and the cycle starts over.\
 In order to draw the player brick without having it move back and forth as the screen is shifted, there is some code that delays the shifting until after the player has been drawn. (This is why there is a small "shadow" to the right of the player when it is near a pillar.)
 
 ## Assembling
