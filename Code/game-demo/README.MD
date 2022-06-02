@@ -12,14 +12,14 @@ The sync generation is done by using the PIC's Timer 0 interrupt. Whenever the t
 This is the same code as that in the `sync-base.asm` file example.
 
 ### Game Updates
-To update the game variables, the `IVR_SERVICE` routine is called during the H-blanking interval. This deals with moving the pillars, moving the player, keeping score, button press timeouts, collision detection, and changing the game state.
+To update the game variables, the `IVR_SERVICE` routine is called during the V-blanking interval. This deals with moving the pillars, moving the player, keeping score, button press timeouts, collision detection, and changing the game state.
 
 ### Line Rendering
-The PIC is unfortunately not fast enough to actively compute the bit patterns for the characters during an active scanline. To get around this, at the beginning of `DISPLAY_LINE`, it checks to see if the line is a multiple of 8. If the line is, it jumps to `CALC_NEXT_LINE` to compute the bit patterns for the next 7 scanlines. This is what causes the horizontal blanking on the screen. If the line is not a multiple of 8, then the pattern stored in `PTRN_BUF` is output to the screen.\
+The PIC is not fast enough to actively compute the bit patterns during an active scanline. To get around this, at the beginning of `DISPLAY_LINE`, it checks to see if the line is a multiple of 8. If the line is, it jumps to `CALC_NEXT_LINE` to compute the bit patterns for the next 7 scanlines. This is what causes the horizontal blanking on the screen. If the line is not a multiple of 8, then the pattern stored in `PTRN_BUF` is output to the screen.\
 The player is not computed in the `CALC_NEXT_LINE` routine. Instead, it is actively drawn as the line is being output to the screen, allowing for smooth motion of the player.
 
 ### Smooth Scrolling
-In order to achieve smooth scrolling, every other frame the scanlines are shifted to the left by one machine cycle. After eight frames, `PTRN_BUF` is shifted left one bit and the cycle starts over.\
+In order to achieve smooth scrolling, every frame the scanlines are shifted to the left by one machine cycle. After eight frames, `PTRN_BUF` is shifted left one bit and the cycle starts over.\
 In order to draw the player brick without having it move back and forth as the screen is shifted, there is some code that delays the shifting until after the player has been drawn. (This is why there is a small "shadow" to the right of the player when it is near a pillar.)
 
 ## Assembling
